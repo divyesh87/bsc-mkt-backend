@@ -4,7 +4,7 @@ const path = require("path")
 const Grid = require("gridfs-stream")
 const multer = require("multer");
 const { GridFsStorage } = require("multer-gridfs-storage")
-const mongoURI = process.env.mongoURI ||  require("./mongoURI")
+const mongoURI = process.env.mongoURI || require("./mongoURI")
 const mongodb = require("mongodb")
 
 const app = express();
@@ -44,13 +44,12 @@ app.get("/", function (req, res) {
 });
 
 app.post('/upload', upload.single('file'), (req, res) => {
-    try {
-        res.redirect('/');
-        videoCounter += 1;
-    } catch (e) {
-        res.status(500).send("server error" + e);
+    res.json({ success: true, id: videoCounter });
+    videoCounter += 1;
+}, (err, req, res, next) => {
+    if (err) {
+        res.status(400).json({ success: false, error: err.message })
     }
-
 });
 
 app.get('/metadata/:id', async (req, res) => {

@@ -6,8 +6,11 @@ const multer = require("multer");
 const { GridFsStorage } = require("multer-gridfs-storage")
 const mongoURI = process.env.mongoURI || require("./mongoURI")
 const mongodb = require("mongodb")
+const cors = require("cors")
 
 const app = express();
+
+app.use(cors())
 
 let videoCounter = 0;
 
